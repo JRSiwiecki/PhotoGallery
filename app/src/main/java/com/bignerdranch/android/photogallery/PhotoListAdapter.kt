@@ -3,6 +3,7 @@ package com.bignerdranch.android.photogallery
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bignerdranch.android.photogallery.api.GalleryItem
 import com.bignerdranch.android.photogallery.databinding.ListItemGalleryBinding
 
@@ -10,7 +11,7 @@ class PhotoViewHolder(
     private val binding: ListItemGalleryBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(galleryItem: GalleryItem) {
-        // TODO
+        binding.itemImageView.load(galleryItem.url)
     }
 }
 
@@ -28,7 +29,5 @@ class PhotoListAdapter(
         holder.bind(item)
     }
 
-    override fun getItemCount(): Int {
-        galleryItems.size
-    }
+    override fun getItemCount() = galleryItems.size
 }
