@@ -24,6 +24,24 @@ class PollWorker(
             return Result.success()
         }
 
-        return Result.success()
+        return try {
+            val items = photoRepository.searchPhotos(query)
+
+            if (items.isNotEmpty()) {
+                val newResultId = items.first().id
+
+                if (newResultId == lastId) {
+                    Log.i(TAG, "Still have same result: $newResultId")
+                } else {
+                    Log.i(TAG, "Got a new result: $newResultId")
+                    preferencesRepository.setLastResultId(newResultId)
+                }
+            }
+
+            Result.success()
+        } catch (ex: Exception) {
+            Log.e(TAG, "Background update failed", ex)
+            Result.failure()
+        }
     }
 }
